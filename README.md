@@ -54,7 +54,7 @@ VR Headset (tested with Meta Quest 3).
 Clone the repository to your local machine:
 bash
 Copy code
-git clone https://github.com/YourUsername/MiniGolfEvolution.git
+git clone https://github.com/AakashMenon007/Mini-Golf-Template.git
 cd MiniGolfEvolution
 Steps to Build and Run:
 Open the project in Unity.
