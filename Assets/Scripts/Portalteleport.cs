@@ -2,33 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortalTeleport : MonoBehaviour
+public class TriggerTeleport : MonoBehaviour
 {
-    public Transform targetPortal; // The portal the player will teleport to
-    public float teleportCooldown = 1f; // Time before the player can teleport again
+    public GameObject Player;
+    public GameObject TeleportPosition;
 
-    private bool canTeleport = true; // Prevent multiple teleports in a short time
+    private bool canTeleport = false;
+
+    void Start()
+    {
+        // Allow teleportation only after a short delay
+        StartCoroutine(EnableTeleport());
+    }
+
+    private IEnumerator EnableTeleport()
+    {
+        // Wait for a short period before allowing teleportation
+        yield return new WaitForSeconds(1f);
+        canTeleport = true;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && canTeleport)
+        if (canTeleport && other.CompareTag("Player"))
         {
-            StartCoroutine(TeleportPlayer(other));
+            Player.transform.SetPositionAndRotation(TeleportPosition.transform.position, Quaternion.identity);
         }
-    }
-
-    private IEnumerator TeleportPlayer(Collider player)
-    {
-        canTeleport = false;
-
-        // Teleport the player to the target portal's position
-        player.transform.position = targetPortal.position;
-
-        // Optional: Align the player's rotation with the target portal's rotation
-        player.transform.rotation = targetPortal.rotation;
-
-        // Wait for the cooldown before allowing another teleport
-        yield return new WaitForSeconds(teleportCooldown);
-        canTeleport = true;
     }
 }
